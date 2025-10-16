@@ -2,31 +2,19 @@ import pandas as pd
 import re
 from pathlib import Path
 
-# ============================================================================
-# CONFIGURATION - Edit these parameters
-# ============================================================================
+INPUT_FILE = "examples/genexus.xlsx" 
 
-# Input Excel file path
-INPUT_FILE = "examples/genexus.xlsx"  # Change this to your Excel file path
-
-# Output Markdown file path (None for auto-generated name, ignored if ENABLE_PAGINATION=True)
 OUTPUT_FILE = None
 
 # Clean mode: 'auto', 'aggressive', 'minimal', 'none'
 CLEAN_MODE = 'auto'
 
 # Pagination options
-ENABLE_PAGINATION = True  # Set to True to save each sheet as a separate .md file
-OUTPUT_FOLDER = "output"   # Folder for paginated output (used when ENABLE_PAGINATION=True)
+ENABLE_PAGINATION = True
+OUTPUT_FOLDER = "output"
 
-# Additional options
 SKIP_EMPTY_ROWS = True
 SKIP_UNNAMED_COLS = True
-
-# ============================================================================
-# END CONFIGURATION
-# ============================================================================
-
 
 def clean_dataframe(df, mode='auto'):
     """
@@ -34,7 +22,7 @@ def clean_dataframe(df, mode='auto'):
     
     Args:
         df: pandas DataFrame
-        mode: cleaning mode ('auto', 'aggressive', 'minimal', 'none')
+        mode: cleaning mode
     
     Returns:
         Cleaned DataFrame

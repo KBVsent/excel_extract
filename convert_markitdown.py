@@ -1,41 +1,20 @@
-"""
-Excel to Markdown Converter using MarkItDown
-
-This script uses Microsoft's MarkItDown library to convert Excel files to Markdown format.
-MarkItDown provides better document structure preservation and is optimized for LLM consumption.
-
-Repository: https://github.com/microsoft/markitdown
-"""
-
 from markitdown import MarkItDown
 from pathlib import Path
 import re
 import pandas as pd
 
-# ============================================================================
-# CONFIGURATION - Edit these parameters
-# ============================================================================
+INPUT_FILE = "examples/genexus.xlsx" 
 
-# Input Excel file path
-INPUT_FILE = "examples/genexus.xlsx"  # Change this to your Excel file path
-
-# Output Markdown file path (None for auto-generated name)
 OUTPUT_FILE = None
 
 # Pagination options
-ENABLE_PAGINATION = True  # Set to True to save each sheet as a separate .md file
-OUTPUT_FOLDER = "output"   # Folder for paginated output (used when ENABLE_PAGINATION=True)
+ENABLE_PAGINATION = True
+OUTPUT_FOLDER = "output"
 
-# MarkItDown options
 ENABLE_PLUGINS = False  # Enable 3rd-party plugins if needed
 
 # Clean mode: 'auto', 'aggressive', 'minimal', 'none'
-CLEAN_MODE = 'auto'  # Clean NaN and Unnamed columns after conversion
-
-# ============================================================================
-# END CONFIGURATION
-# ============================================================================
-
+CLEAN_MODE = 'auto' 
 
 def clean_dataframe(df, mode='auto'):
     """
