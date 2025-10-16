@@ -43,6 +43,3 @@ Thumbs.db
 output/
 examples/
 
-# UV
-.uv/
-uv.lock
