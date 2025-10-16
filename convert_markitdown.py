@@ -11,7 +11,7 @@ OUTPUT_FILE = None
 ENABLE_PAGINATION = True
 OUTPUT_FOLDER = "output"
 
-ENABLE_PLUGINS = False  # Enable 3rd-party plugins if needed
+ENABLE_PLUGINS = False  # Enable plugins if needed
 
 # Clean mode: 'auto', 'aggressive', 'minimal', 'none'
 CLEAN_MODE = 'auto' 
@@ -266,7 +266,7 @@ def convert_excel_to_markdown(
         enable_pagination: Save each sheet to a separate .md file
         output_folder: Folder for paginated output files
         enable_plugins: Enable MarkItDown plugins
-        clean_mode: Cleaning mode ('auto', 'aggressive', 'minimal', 'none')
+        clean_mode: Cleaning mode
     """
     if enable_pagination:
         convert_excel_to_markdown_paginated(
