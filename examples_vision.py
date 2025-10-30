@@ -10,7 +10,7 @@ def test_document_analysis():
     tester = VisionModelTester()
     
     # Example: Testing with a document/screenshot
-    image_path = "examples/test_1.png"  # Replace with your image
+    image_path = "examples/test_3_c.png"  # Replace with your image
     
     prompts = [
         """Please treat this image as a document and convert it into a pure Markdown format that is human-readable.
