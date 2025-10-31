@@ -43,14 +43,19 @@ def convert_worksheet_to_image(excel_file, output_file, sheet_index=0):
         print(f"转换失败：{str(e)}")
 
 
-def convert_worksheet_to_image_no_margin(excel_file, output_file, sheet_index=0):
+def convert_worksheet_to_image_no_margin(excel_file, output_file, sheet_index=0, image_quality=1200):
     """
-    将 Excel 工作表转换为无白边图片
+    将 Excel 工作表转换为无白边高质量图片
     
     参数:
         excel_file: 输入的 Excel 文件路径
         output_file: 输出的图片文件路径
         sheet_index: 工作表索引，默认为 0（第一个工作表）
+        image_quality: 图片质量 DPI（默认：1200 最高质量）
+                      - 150: 低质量（网页/邮件）
+                      - 300: 中等质量（标准文档）
+                      - 600: 高质量（专业打印）
+                      - 1200: 超高质量（存档/最大细节）
     """
     try:
         # 创建 Workbook 对象并载入 Excel 文件
@@ -66,6 +71,9 @@ def convert_worksheet_to_image_no_margin(excel_file, output_file, sheet_index=0)
         sheet.PageSetup.LeftMargin = 0
         sheet.PageSetup.RightMargin = 0
         
+        # 设置打印质量（影响图片分辨率）
+        sheet.PageSetup.PrintQuality = image_quality
+        
         # 将工作表转换为图片
         image = sheet.ToImage(sheet.FirstRow, sheet.FirstColumn, sheet.LastRow, sheet.LastColumn)
         
@@ -75,7 +83,7 @@ def convert_worksheet_to_image_no_margin(excel_file, output_file, sheet_index=0)
         # 释放资源
         workbook.Dispose()
         
-        print(f"成功将工作表转换为无白边图片：{output_file}")
+        print(f"成功将工作表转换为无白边高质量图片：{output_file} (质量: {image_quality} DPI)")
         
     except Exception as e:
         print(f"转换失败：{str(e)}")
@@ -117,14 +125,15 @@ def convert_range_to_image(excel_file, output_file, start_row, start_col, end_ro
         print(f"转换失败：{str(e)}")
 
 
-def convert_all_worksheets_to_images(excel_file, output_dir, no_margin=False):
+def convert_all_worksheets_to_images(excel_file, output_dir, no_margin=False, image_quality=1200):
     """
-    将 Excel 文件的所有工作表转换为图片
+    将 Excel 文件的所有工作表转换为高质量图片
     
     参数:
         excel_file: 输入的 Excel 文件路径
         output_dir: 输出目录
         no_margin: 是否去除白边，默认为 False
+        image_quality: 图片质量 DPI（默认：1200 最高质量）
     """
     try:
         # 创建输出目录
@@ -133,6 +142,8 @@ def convert_all_worksheets_to_images(excel_file, output_dir, no_margin=False):
         # 创建 Workbook 对象并载入 Excel 文件
         workbook = Workbook()
         workbook.LoadFromFile(excel_file)
+        
+        print(f"使用质量设置: {image_quality} DPI")
         
         # 遍历所有工作表
         for i in range(workbook.Worksheets.Count):
@@ -145,6 +156,9 @@ def convert_all_worksheets_to_images(excel_file, output_dir, no_margin=False):
                 sheet.PageSetup.BottomMargin = 0
                 sheet.PageSetup.LeftMargin = 0
                 sheet.PageSetup.RightMargin = 0
+            
+            # 设置打印质量
+            sheet.PageSetup.PrintQuality = image_quality
             
             # 将工作表转换为图片
             image = sheet.ToImage(sheet.FirstRow, sheet.FirstColumn, sheet.LastRow, sheet.LastColumn)
@@ -183,12 +197,13 @@ if __name__ == "__main__":
     )
     print()
     
-    # 示例 2: 将工作表转换为无白边图片
-    print("2. 将工作表转换为无白边图片")
+    # 示例 2: 将工作表转换为无白边高质量图片（默认最高质量）
+    print("2. 将工作表转换为无白边高质量图片（1200 DPI）")
     convert_worksheet_to_image_no_margin(
         input_file,
-        os.path.join(output_dir, "工作表转无白边图片.png"),
-        sheet_index=0
+        os.path.join(output_dir, "工作表转无白边高质量图片.png"),
+        sheet_index=0,
+        image_quality=1200  # 最高质量
     )
     print()
     
@@ -205,13 +220,21 @@ if __name__ == "__main__":
     )
     print()
     
-    # 示例 4: 将所有工作表转换为图片
-    print("4. 将所有工作表转换为图片（无白边）")
+    # 示例 4: 将所有工作表转换为高质量图片（无白边）
+    print("4. 将所有工作表转换为高质量图片（无白边，1200 DPI）")
     convert_all_worksheets_to_images(
         input_file,
         os.path.join(output_dir, "all_sheets"),
-        no_margin=True
+        no_margin=True,
+        image_quality=1200  # 最高质量
     )
     print()
     
     print("=== 转换完成 ===")
+    print("\n提示：")
+    print("- 默认使用 1200 DPI 最高质量")
+    print("- 如需调整质量，可修改 image_quality 参数")
+    print("  - 150: 低质量（网页/邮件）")
+    print("  - 300: 中等质量（标准文档）")
+    print("  - 600: 高质量（专业打印）")
+    print("  - 1200: 超高质量（存档/最大细节）[默认]")
