@@ -10,4 +10,5 @@ dependencies = [
     "markitdown[xlsx]>=0.1.0",
     "openai>=1.0.0",
     "python-dotenv>=1.0.0",
+    "Spire.Xls.Free>=14.12.4"
 ]
