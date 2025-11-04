@@ -1,5 +1,5 @@
 version = 1
-revision = 2
+revision = 3
 requires-python = ">=3.10"
 resolution-markers = [
     "python_full_version >= '3.13'",
@@ -213,6 +213,7 @@ dependencies = [
     { name = "openpyxl" },
     { name = "pandas" },
     { name = "python-dotenv" },
+    { name = "spire-xls-free" },
     { name = "tabulate" },
 ]
 
@@ -223,6 +224,7 @@ requires-dist = [
     { name = "openpyxl", specifier = ">=3.0.0" },
     { name = "pandas", specifier = ">=2.0.0" },
     { name = "python-dotenv", specifier = ">=1.0.0" },
+    { name = "spire-xls-free", specifier = ">=14.12.4" },
     { name = "tabulate", specifier = ">=0.9.0" },
 ]
 
@@ -758,6 +760,15 @@ wheels = [
 ]
 
 [[package]]
+name = "plum-dispatch"
+version = "1.7.4"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/39/4e/f4d6b2bd80a9880989d37773f0f2e3a91a2d5352732e4ebb68b5606bca83/plum-dispatch-1.7.4.tar.gz", hash = "sha256:1c1d15b2842b5fa98405fd3dff6fad4887bdc77b60bd200e209d76ebfe9990fe", size = 56429, upload-time = "2022-10-21T06:29:20.747Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e6/b6/3aaa985591c63da64c7bd8c5f470442a4c00b37ad3ed057f21de14174f83/plum_dispatch-1.7.4-py3-none-any.whl", hash = "sha256:c40dbeab269bbbf972ce0dbc078380da19ebaee1a370a2c564e1814a11bde216", size = 24238, upload-time = "2022-10-21T06:29:19.054Z" },
+]
+
+[[package]]
 name = "protobuf"
 version = "6.33.0"
 source = { registry = "https://pypi.org/simple" }
@@ -980,6 +991,19 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/6d/e6/21ccce3262dd4889aa3332e5a119a3491a95e8f60939870a3a035aabac0d/soupsieve-2.8.tar.gz", hash = "sha256:e2dd4a40a628cb5f28f6d4b0db8800b8f581b65bb380b97de22ba5ca8d72572f", size = 103472, upload-time = "2025-08-27T15:39:51.78Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/14/a0/bb38d3b76b8cae341dad93a2dd83ab7462e6dbcdd84d43f54ee60a8dc167/soupsieve-2.8-py3-none-any.whl", hash = "sha256:0cc76456a30e20f5d7f2e14a98a4ae2ee4e5abdc7c5ea0aafe795f344bc7984c", size = 36679, upload-time = "2025-08-27T15:39:50.179Z" },
+]
+
+[[package]]
+name = "spire-xls-free"
+version = "14.12.4"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "plum-dispatch" },
+]
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/02/a2/f2c20ed93dce0a2275bf0645554df9d39c005c0b03376e0ef03bc233f2ba/Spire.Xls.Free-14.12.4-py3-none-macosx_10_7_universal.whl", hash = "sha256:e75c22b140c5686fe7a4fb6287b7a1488c2b4951529da7e2bf5574513e7dd550", size = 47029883, upload-time = "2025-03-05T06:53:36.538Z" },
+    { url = "https://files.pythonhosted.org/packages/49/51/c1ec4f03c5eab258cad1ee7ebeb9ab88b568e78a8b5602029aeeb8ecd094/Spire.Xls.Free-14.12.4-py3-none-manylinux1_x86_64.whl", hash = "sha256:40668246336eb8b70597446fc8103fd1bf7e3f770356a76496c9b2e6ebdbdae9", size = 37894191, upload-time = "2025-03-05T06:54:02.204Z" },
+    { url = "https://files.pythonhosted.org/packages/40/50/2cd7562dabb78ea5b08e5849284851cca82ed7de160a762aac933024658f/Spire.Xls.Free-14.12.4-py3-none-win_amd64.whl", hash = "sha256:859378fcfeabc8aa518bee81fbfc137e32c6efa0f8831041b59f26db29cec43d", size = 24693140, upload-time = "2025-03-05T06:54:19.447Z" },
 ]
 
 [[package]]
