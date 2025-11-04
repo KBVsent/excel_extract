@@ -10,11 +10,13 @@ Process:
 This allows converting unlimited sheets to images
 """
 
-from spire.xls import *
-from spire.xls.common import *
 import os
 import shutil
 import tempfile
+
+# Use excel-processor wrapper instead of direct spire.xls import
+# from spire.xls import Workbook, FileFormat
+from excel_processor import Workbook, FileFormat
 
 
 def split_excel_by_sheets(input_file, output_dir):
@@ -232,7 +234,7 @@ if __name__ == "__main__":
         dpi = int(sys.argv[3]) if len(sys.argv) > 3 else 300
     else:
         # Default example
-        input_file = "examples/test.xlsx"
+        input_file = "examples/test_img.xlsx"
         output_dir = "output/images"
         dpi = 300
     
