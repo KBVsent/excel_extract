@@ -1,8 +1,3 @@
-"""
-Use Spire.XLS to split Excel file by sheets
-Split a multi-sheet Excel file into separate Excel files, one file per sheet
-"""
-
 from spire.xls import *
 from spire.xls.common import *
 import os
