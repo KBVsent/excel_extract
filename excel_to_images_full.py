@@ -1,21 +1,7 @@
-"""
-Complete solution to convert all Excel sheets to images
-Workaround for Spire.XLS limitation (only first 3 sheets)
-
-Process:
-1. Split Excel file by sheets (each sheet becomes a separate file)
-2. Convert each split file to image
-3. Clean up temporary files
-
-This allows converting unlimited sheets to images
-"""
-
 import os
 import shutil
 import tempfile
 
-# Use excel-processor wrapper instead of direct spire.xls import
-# from spire.xls import Workbook, FileFormat
 from excel_processor import Workbook, FileFormat
 
 
@@ -40,12 +26,10 @@ def split_excel_by_sheets(input_file, output_dir):
     for worksheet in workbook.Worksheets:
         sheet_name = worksheet.Name
         
-        # Create new workbook for this sheet
         newWorkbook = Workbook()
         newWorkbook.Worksheets.Clear()
         newWorkbook.Worksheets.AddCopy(worksheet)
         
-        # Save to file
         output_file = os.path.join(output_dir, f"{sheet_name}.xlsx")
         newWorkbook.SaveToFile(output_file, FileFormat.Version2016)
         
@@ -66,31 +50,23 @@ def convert_worksheet_to_image_no_margin(excel_file, output_file, sheet_index=0,
         output_file: Output image file path
         sheet_index: Worksheet index (default: 0)
         dpi: DPI resolution (default: 300)
-             - 96: Screen quality
-             - 150: Low quality
-             - 300: Standard quality (recommended)
-             - 600: High quality
     """
     workbook = Workbook()
     workbook.LoadFromFile(excel_file)
     
-    # Set DPI for high quality conversion
     converterSetting = workbook.ConverterSetting
     converterSetting.XDpi = dpi
     converterSetting.YDpi = dpi
     
     sheet = workbook.Worksheets.get_Item(sheet_index)
     
-    # Set all margins to zero
     sheet.PageSetup.TopMargin = 0
     sheet.PageSetup.BottomMargin = 0
     sheet.PageSetup.LeftMargin = 0
     sheet.PageSetup.RightMargin = 0
     
-    # Convert to image
     image = sheet.ToImage(sheet.FirstRow, sheet.FirstColumn, sheet.LastRow, sheet.LastColumn)
     
-    # Save image
     image.Save(output_file)
     
     workbook.Dispose()
@@ -99,7 +75,6 @@ def convert_worksheet_to_image_no_margin(excel_file, output_file, sheet_index=0,
 def convert_excel_to_images(input_file, output_dir, no_margin=True, keep_temp_files=False, dpi=300):
     """
     Convert all sheets in Excel file to images
-    Workaround for Spire.XLS limitation (only first 3 sheets)
     
     Args:
         input_file: Input Excel file path
@@ -107,19 +82,13 @@ def convert_excel_to_images(input_file, output_dir, no_margin=True, keep_temp_fi
         no_margin: Remove margins from images (default: True)
         keep_temp_files: Keep temporary split Excel files (default: False)
         dpi: DPI resolution (default: 300)
-             - 96: Screen quality
-             - 150: Low quality
-             - 300: Standard quality (recommended)
-             - 600: High quality
         
     Returns:
         List of (sheet_name, image_path) tuples
     """
     try:
-        # Create output directory
         os.makedirs(output_dir, exist_ok=True)
         
-        # Create temporary directory for split files
         temp_dir = tempfile.mkdtemp(prefix="excel_split_")
         
         print("=" * 70)
@@ -147,7 +116,6 @@ def convert_excel_to_images(input_file, output_dir, no_margin=True, keep_temp_fi
             image_path = os.path.join(output_dir, f"{safe_name}.png")
             
             try:
-                # Convert to image with DPI settings
                 if no_margin:
                     convert_worksheet_to_image_no_margin(
                         excel_path, 
@@ -156,7 +124,6 @@ def convert_excel_to_images(input_file, output_dir, no_margin=True, keep_temp_fi
                         dpi=dpi
                     )
                 else:
-                    # Convert with margins
                     workbook = Workbook()
                     workbook.LoadFromFile(excel_path)
                     
@@ -187,7 +154,6 @@ def convert_excel_to_images(input_file, output_dir, no_margin=True, keep_temp_fi
         else:
             print(f"Step 3: Temporary files kept at: {temp_dir}\n")
         
-        # Summary
         print("=" * 70)
         print(f"✓ Conversion complete!")
         print(f"  Total sheets: {len(split_files)}")
@@ -225,34 +191,17 @@ def convert_excel_to_images_simple(input_file, output_dir="output/images", dpi=3
 
 
 if __name__ == "__main__":
-    import sys
-    
-    # Check command line arguments
-    if len(sys.argv) > 1:
-        input_file = sys.argv[1]
-        output_dir = sys.argv[2] if len(sys.argv) > 2 else "output/images"
-        dpi = int(sys.argv[3]) if len(sys.argv) > 3 else 300
-    else:
-        # Default example
-        input_file = "examples/test_img.xlsx"
-        output_dir = "output/images"
-        dpi = 300
-    
-    # Convert Excel to images
-    print()
-    print("=" * 70)
-    print("Excel to Images Converter")
-    print("=" * 70)
-    print(f"DPI: {dpi} (Recommended: 96/150/300/600)")
-    print("=" * 70)
-    print()
+
+    input_file = "examples/test_img.xlsx"
+    output_dir = "output/images"
+    dpi = 300
     
     result = convert_excel_to_images(
         input_file=input_file,
         output_dir=output_dir,
-        no_margin=True,          # Remove margins
-        keep_temp_files=False,   # Clean up temporary files
-        dpi=dpi                  # DPI resolution
+        no_margin=True,
+        keep_temp_files=False,
+        dpi=dpi
     )
     
     print()
@@ -270,24 +219,3 @@ if __name__ == "__main__":
                 print(f"  • {sheet_name}: {image_path}")
     else:
         print("No images were generated.")
-    
-    print()
-    print("Usage:")
-    print(f"  python {os.path.basename(__file__)} <input_file> [output_dir] [dpi]")
-    print()
-    print("DPI Options:")
-    print("  96   - Screen quality (smallest files)")
-    print("  150  - Low quality (web/email)")
-    print("  300  - Standard quality [DEFAULT] (recommended)")
-    print("  600  - High quality (printing)")
-    print()
-    print("Examples:")
-    print(f"  # Standard quality (default)")
-    print(f"  python {os.path.basename(__file__)} my_excel.xlsx")
-    print()
-    print(f"  # High quality for printing")
-    print(f"  python {os.path.basename(__file__)} my_excel.xlsx output/print 600")
-    print()
-    print(f"  # Low quality for web/email")
-    print(f"  python {os.path.basename(__file__)} my_excel.xlsx output/web 150")
-    print()
